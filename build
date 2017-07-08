@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+# npm install -g uglifyjs
+# npm install -g minify
+uglifyjs js/app.js js/terminal.js js/main.js -o dest/js/app.js -m -c
+minify --output dest/css/main.css css/main.css

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <link rel='icon' type='image/png' href='dest/favicon.png'>
+  <link rel="stylesheet" href="dest/css/font-awesome/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="dest/css/main.css">
+
+  <title>new tab</title>
+</head>
+<body>
+
+  <!-- Handlebars JS templates. -->
+  <script id="todo-single-template" type="text/x-handlebars-template">
+    <div class="todo-list-item" data-todo-id="{{ id }}" data-todo-index="{{ index }}">
+      <input type="checkbox" {{#if done}}checked{{/if}} onclick="modules.todo.toggleDone({{ id }})" />
+      <p {{#if done}}class="done"{{/if}} data-todo-id="{{ id }}" class="todo-editable">{{ task }}</p>
+      <i class="fa fa-trash" aria-hidden="true" onclick="modules.todo.remove({{ id }})"></i>
+      <i class="fa fa-calendar-check-o" aria-hidden="true" onclick="modules.todo.showDatePicker($(this), {{id}})"></i>
+    </div>
+  </script>
+
+  <script id="terminal-ac-template" type="text/x-handlebars-template">
+    <pre id="term-ac" class="term-ac">
+    {{#each matches}}
+      {{#if @first}}
+      <span class="selected">{{ this }}</span>
+      {{else}}
+      <span>{{ this }}</span>
+      {{/if}}
+    {{/each}}
+    </pre>
+  </script>
+
+  <script id="notification-template" type="text/x-handlebars-template">
+    <div id="{{ id }}" class="notification {{#if error}}error{{/if}}" onclick="$(this).remove();">
+      <p>{{{ msg }}}</p>
+    </div>
+  </script>
+
+  <script id="weather-current-template" type="text/x-handlebars-template">
+<span>Weather in <b>{{name}}</b> on <b>{{unixdate dt}}</b>:</span>
+<span>description: {{weather.0.description}}</span>
+<span>temperature: {{ main.temp }}°C (min: {{main.temp_min}}°C, max: {{main.temp_max}}°C)</span>
+<span>humidity: {{main.humidity}}%</span>
+<span>clouds: {{clouds.all}}%</span>
+<span>wind: {{wind.speed}} m/s ({{ decimal (kmh wind.speed) }} km/h) {{wind.direction}}</span>
+  </script>
+
+  <script id="weather-forecast-template" type="text/x-handlebars-template">
+<span>Forecast for next 3 days in {{name}}
+<div class="grid">
+{{#each forecast}}
+<div>
+<span><b>{{date}}</b></span>
+<span>description: {{category}}</span>
+<span>temperature: {{decimal temp}}°C 
+-min: {{decimal temp_min}}°C, max: {{decimal temp_max}}°C</span>
+<span>humidity: {{decimal humidity}}%</span>
+<span>clouds: {{clouds}}%</span>
+<span>wind: {{decimal wind}} m/s  ({{ decimal (kmh wind) }} km/h)
+ {{direction}}</span>
+</div>
+{{/each}}
+</div>
+  </script>
+  <!-- End of Handlebars templates -->
+
+  <div class="parent">
+    <div class="main">
+
+      <div class="clock" align="center">
+        <div class="date" id="date">1 Januari 1970</div>
+        <div class="time" id="time">:</div>
+      </div>
+
+      <div class="navigation" align="center">
+        <div id="nav-other" class="nav-item" data-id="item-other">other</div>
+        <div id="nav-reddit" class="nav-item" data-id="item-reddit">reddit</div>
+        <div id="nav-todo" class="nav-item" data-id="item-todo">todo</div>
+      </div>
+
+      <div class="nav-tab" align="center" id="item-other">
+        <div class="grid">
+          <div>
+            <a href="https://youtube.com">youtube</a>
+            <a href="https://4chan.org">4chan</a>
+            <a href="https://novelupdates.com">novelupdates</a>
+          </div>
+          <div>
+            <a href="https://inbox.google.com">inbox</a>
+            <a href="https://facebook.com">facebook</a>
+            <a href="http://twitter.com">twitter</a>
+          </div>
+          <div>
+            <a href="https://github.com">github</a>
+            <a href="https://drive.google.com">drive</a>
+            <a href="https://web.whatsapp.com">whatsapp</a>
+          </div>
+        </div>
+        <i class="fa fa-angle-down" aria-hidden="true" onclick="modules.shortcut.trigger(81)"></i>
+        <div id="additional-other" class="grid" style="display: none;">
+          <div>
+            <a href="http://twentytwoo.github.io/comfy-sounds">comfy-sounds</a>
+            <a href="http://everynoise.com">everynoise</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-tab" align="center" id="item-reddit" style="display:none;">
+        <div class="grid">
+          <div>
+            <a href="https://reddit.com/r/all">r/all</a>
+            <a href="#">not yet defined</a>
+            <a href="#">not yet defined</a>
+          </div>
+          <div>
+            <a href="#">not yet defined</a>
+            <a href="#">not yet defined</a>
+            <a href="#">not yet defined</a>
+          </div>
+          <div>
+            <a href="#">not yet defined</a>
+            <a href="#">not yet defined</a>
+            <a href="#">not yet defined</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="todo-tab" align="center" id="item-todo" style="display:none;">
+        <div>
+          <input id="todo-input" autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false">
+        </div>
+
+      </div>
+
+    </div> <!-- end main -->
+
+    <div class="terminal-container" id="terminal-container">
+      <div class="terminal" id="terminal"></div>
+    </div> 
+
+  </div> <!-- end parent -->
+
+  <div id="notifications" class="notifications"></div>
+
+  <style type="text/css" id="custom_rules"></style>
+
+  <div class="todo-datepicker" id="todo-datepicker" style="display: none;"> 
+    <ul class="list">
+      <p id="todo-current-due"></p>
+      <li data-value="0">None</li>
+      <li data-value="1">4 Hours</li>
+      <li data-value="2">10 Hours</li>
+      <li data-value="3">Tomorrow</li>
+      <li data-value="4">3 Days</li>
+      <li data-value="5">Next Week</li>
+    </ul>
+  </div>
+
+  <script src="dest/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+  <script src="dest/js/handlebars-v4.0.10.js" type="text/javascript"></script>
+  <script src="dest/js/app.js" type="text/javascript"></script>
+
+  <!-- For testing purposes -->
+  <!-- <script src="js/app.js" type="text/javascript"></script>
+  <script src="js/terminal.js" type="text/javascript"></script>
+  <script src="js/main.js" type="text/javascript"></script> -->
+</body>
+</html>

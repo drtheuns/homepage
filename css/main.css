@@ -1,0 +1,442 @@
+:root {
+    --main-bg-color: #222222;
+    --text-color: #ebdbb2;
+    --link-hover: #404040;
+    --output-color: #828282;
+    --term-color: #F8F8F2;
+    --term-background: #151515;
+    --color-error: #DD424C;
+    --color-success: #14952D;
+}
+
+.red {
+    color: var(--color-error);
+}
+
+.green {
+    color: var(--color-success);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: white;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: 'Source Sans Pro', sans-serif;
+    background-color: var(--main-bg-color);
+}
+
+body {
+    overflow-y: scroll;
+}
+
+a {
+    color: var(--text-color);
+}
+.parent {
+    height: 100%;
+    width: 100%;
+}
+
+.main {
+    position: absolute;
+    right: 15%;
+    left: 15%;
+    top: 10%;
+    bottom: 15%;
+}
+
+.navigation {
+    margin-bottom: 4%;
+}
+
+.navigation div {
+    color: var(--text-color);
+    padding: 5px 15px 5px 15px;
+    border-bottom: 1px solid var(--text-color);
+    display: inline;
+    font-size: 32px;
+}
+
+.navigation div:not(:first-child) {
+    margin-left: 10px;
+}
+
+.navigation div:not(:last-child) {
+    margin-right: 10px;
+}
+
+.navigation div:hover {
+    cursor: pointer;
+    background-color: var(--link-hover);
+}
+
+.clock {
+    margin-bottom: 2%;
+}
+
+.date {
+    color: var(--text-color);
+    padding: 5px 15px 0 15px;
+    font-size: 16px;
+}
+
+.time {
+    color: var(--text-color);
+    padding: 5px 15px 0 15px;
+    font-size: 90px;
+    margin-top: -15px;
+}
+
+.nav-item:active {
+    background-color: var(--link-hover);
+}
+
+.grid {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn .75s;
+}
+
+.grid div a {
+    font-size: 20px;
+    text-decoration: none;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    display: block;
+    text-align: center;
+}
+
+.grid div a:hover, .grid div a:focus {
+    cursor: pointer;
+    background-color: var(--text-color);
+    color: var(--main-bg-color);
+    outline: none;
+}
+
+.output .grid {
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    justify-content: left;
+    animation: none;
+}
+
+.output .grid div {
+    margin-right: 15px;
+}
+
+.nav-tab .fa-angle-down {
+    color: var(--text-color);
+    display: block;
+    padding: 15px 0 15px 0;
+}
+.todo-tab {
+    position: absolute;
+    right: 30%;
+    left: 30%;
+}
+
+@media only screen and (max-width: 980px) {
+    .todo-tab {
+        position: absolute;
+        right: 5%;
+        left: 5%;
+    }
+}
+
+.todo-tab div:not(:first-child) {
+    border: 1px solid var(--text-color);
+    padding: 15px 15px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.todo-tab div:first-child {
+    padding: 15px 0px 15px 0;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.todo-tab div:first-child input {
+    font-size: 18px;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--text-color);
+    background-color: var(--main-bg-color);
+    padding: 5px 0 5px 10px;
+}
+
+.todo-tab div:first-child input:focus {
+    outline: none;
+}
+
+.todo-list-item textarea {
+    display: inline;
+    font-size: 18px;
+    width: 88%;
+    border: none;
+    background-color: var(--main-bg-color);
+    overflow: hidden;
+    font-family: inherit;
+}
+
+.todo-list-item textarea:focus {
+    outline: none;
+}
+
+.todo-list-item::before {
+    content: attr(data-todo-index);
+    margin-left: -45px;
+    margin-top: -10px;
+    position: absolute;
+    color: var(--output-color);
+    font-size: 16px;
+}
+
+.todo-tab div * {
+    display: inline;
+    color: var(--text-color);
+    font-size: 18px;
+    white-space: pre-line;
+}
+
+.todo-tab div i {
+    float: right;
+    margin-left: 10px;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.todo-tab div i:hover {
+    opacity: 1;
+}
+
+input[type=checkbox] {
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    border: 1px solid #aaa;
+    overflow: hidden;
+    margin-top: -4px;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    outline: 0;
+    background: 0 0;
+    cursor: pointer;
+    padding: 0;
+    margin-right: 8px;
+}
+
+input {
+    box-sizing: border-box;
+    margin: 0;
+    border-radius: 0;
+    font: inherit;
+    color: inherit;
+}
+
+input[type=checkbox]:checked:before,
+input[type=checkbox]:indeterminate:before {
+    content: "\f00c";
+    font-family: FontAwesome;
+    font-size: 17px;
+    text-align: center;
+    line-height: 11px;
+    color: var(--text-color);
+}
+
+input[type=checkbox]:before {
+    display: block;
+}
+
+.done {
+    text-decoration: line-through;
+}
+
+.todo-list-item {
+    animation: fadeInUp .75s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+.fadeInUp {
+    animation: fadeInUp 0.75s;
+}
+
+.fadeOutDown {
+    animation: fadeOutDown 0.75s;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.terminal-container {
+    position: absolute;
+    height: 40%;
+    bottom: 0%;
+    left: 15%;
+    right: 15%;
+    z-index: 1000;
+    -webkit-box-shadow: 0px -3px 6px 0px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px -3px 6px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px -3px 6px 0px rgba(0, 0, 0, 0.5);
+    color: white;
+    background-color: var(--term-background);
+    display: none;
+    padding: 12pt;
+    overflow-y: scroll;
+}
+
+@media only screen and (max-width: 980px) {
+    .terminal-container {
+        left: 0%;
+        right: 0%;
+    }
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+pre {
+    font-family: "Roboto Mono", monospace;
+    font-size: 12px;
+    margin: 0;
+    color: var(--term-color);
+    display: inline;
+}
+
+pre:focus {
+    outline: none;
+}
+
+#input {
+    white-space: pre;
+    word-wrap: initial;
+}
+
+.term-ac span {
+    color: rgba(248, 248, 242, 0.64);
+}
+
+.term-ac {
+    white-space: normal;
+}
+
+.term-ac span.selected {
+    background-color: #404040;
+}
+
+.output {
+    color: var(--output-color);
+}
+
+.output, .old-input {
+    white-space: pre;
+    z-index: 1001;
+}
+
+.output a {
+    margin-right: 10px;
+    color: var(--output-color);
+}
+
+.notifications {
+    top: 5%;
+    right: 5%;
+    position: absolute;
+    z-index: 1005;
+    width: 30%;
+}
+
+.notification {
+    margin-bottom: 20px;
+    width: 100%;
+    background-color: var(--text-color);
+    color: var(--main-bg-color);
+    animation-name: fadeInUp;
+    animation-duration: 0.75s;
+}
+
+.notification p {
+    padding: 8px;
+    color: var(--main-bg-color);
+}
+
+.notification.error {
+    background-color: var(--color-error);
+}
+
+.notification.error p {
+    color: white;
+}
+
+.todo-datepicker {
+    position: absolute;
+}
+
+.todo-datepicker>ul.list {
+    position: absolute;
+    z-index: 999;
+    width: 300px;
+    margin: 0;
+    list-style: none;
+    background: var(--main-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--output-color);
+    padding: 0;
+}
+
+.todo-datepicker>ul.list li {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: solid 1px var(--output-color);
+}
+
+.todo-datepicker>ul.list li:hover {
+    background: var(--link-hover);
+}
+
+.todo-datepicker>ul.list li:last-child {
+    border: none;
+}
+
+.todo-datepicker>ul p {
+    color: var(--text-color);
+    padding: 10px;
+    border-bottom: 1px solid var(--output-color);
+    margin: 0;
+}
+
+.todo-datepicker>ul p:empty {
+    display: none;
+}
+
