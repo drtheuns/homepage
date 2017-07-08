@@ -611,7 +611,6 @@ const modules = {
             }
         },
         checkPrice: function() {
-            console.log("checkPrice called");
             $.ajax(this.apiUrl)
             .done(data => {
                 let previous = jQuery.extend(true, {}, this.price);
@@ -864,8 +863,8 @@ const modules = {
             this.historyPos = -1;
 
             // Make sure history length never exceeds user defined history max, or 1000 default.
-            if (this.history.length >= window.settings.maxhistory || 1000) {
-                this.history.slice(0, window.settings.maxhistory || 1000);
+            if (this.history.length >= window.settings.get('terminal.maxhistory') || 1000) {
+                this.history.slice(0, window.settings.get('terminal.maxhistory') || 1000);
             }
             
             localStorage.setItem('history', JSON.stringify(this.history));

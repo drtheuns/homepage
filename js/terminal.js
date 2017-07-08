@@ -77,7 +77,7 @@ const term_modules = {
     get: {
         name: 'get',
         category: 'general',
-        help: 'get value of a setting\nusage: get SETTING\nexample: get terminal.name',
+        help: 'get value of a setting\nusage: get [SETTING]\nexample: get terminal.name',
         visible: true,
         run: function(input) {
             if (input === '') {
